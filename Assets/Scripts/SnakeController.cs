@@ -12,28 +12,28 @@ public class SnakeController : MonoBehaviour
     public Transform snakeCharacter;
     private bool collisionDetected = false;
 
-    void Start() {
+    private void Start() {
         direction = directionList[Random.Range(0, directionList.Count)];
         InvokeRepeating("Move", 0, 0.15f);
     }
 
-    void Update() {
-        if (Input.GetKeyDown(KeyCode.UpArrow))
+    private void Update() {
+        if (Input.GetAxis("Vertical") > 0)
         {
             direction = Vector2.up;
-        } else if (Input.GetKeyDown(KeyCode.DownArrow))
+        } else if (Input.GetAxis("Vertical") < 0)
         {
             direction = Vector2.down;
-        } else if (Input.GetKeyDown(KeyCode.LeftArrow))
+        } else if (Input.GetAxis("Horizontal") < 0)
         {
             direction = Vector2.left;
-        } else if (Input.GetKeyDown(KeyCode.RightArrow))
+        } else if (Input.GetAxis("Horizontal") > 0)
         {
             direction = Vector2.right;
         }
     }
 
-    void Move() {
+    private void Move() {
         Vector2 currentPos = transform.position;
         transform.Translate(direction);
         if (foodEaten || tail.Count < 5) {
@@ -47,8 +47,7 @@ public class SnakeController : MonoBehaviour
         }
     }
 
-    void OnTriggerEnter2D(Collider2D collision)
-    {
+    private void OnTriggerEnter2D(Collider2D collision) {
         if (collision.gameObject.CompareTag("Food"))
         {
             foodEaten = true;
@@ -63,8 +62,7 @@ public class SnakeController : MonoBehaviour
         }
     }
 
-    private void Blink()
-    {
+    private void Blink() {
         snakeCharacter.gameObject.SetActive(!snakeCharacter.gameObject.activeSelf);
         Invoke("Blink", 1f);
     }
